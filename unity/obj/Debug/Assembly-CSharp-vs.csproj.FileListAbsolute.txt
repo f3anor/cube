@@ -1,0 +1,10 @@
+S:\WORK\AlphaCube\AlphaCubeUnity\Temp\bin\Debug\Assembly-CSharp.dll
+S:\WORK\AlphaCube\AlphaCubeUnity\Temp\bin\Debug\Assembly-CSharp.pdb
+S:\WORK\AlphaCube\AlphaCubeUnity\Temp\bin\Debug\UnityEditor.dll
+S:\WORK\AlphaCube\AlphaCubeUnity\Temp\bin\Debug\UnityEngine.dll
+S:\WORK\AlphaCube\AlphaCubeUnity\Temp\bin\Debug\Mono.Cecil.dll
+S:\WORK\AlphaCube\AlphaCubeUnity\Temp\bin\Debug\nunit.framework.dll
+S:\WORK\AlphaCube\AlphaCubeUnity\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+S:\WORK\AlphaCube\AlphaCubeUnity\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+S:\WORK\AlphaCube\AlphaCubeUnity\obj\Debug\Assembly-CSharp.dll
+S:\WORK\AlphaCube\AlphaCubeUnity\obj\Debug\Assembly-CSharp.pdb
