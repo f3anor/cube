@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MenuHighscore : MonoBehaviour {
+public class MenuHighscore : MenuMain {
 		
 
 	
@@ -13,9 +13,8 @@ public class MenuHighscore : MonoBehaviour {
 			Application.LoadLevel(GlobalNames.SCENE_ID_GAME);
 		if (GUILayout.Button("Options"))
             Application.LoadLevel(GlobalNames.SCENE_ID_OPTIONS);
-		
-		if (GUILayout.Button("Highscore"))
-            Application.LoadLevel(GlobalNames.SCENE_ID_HIGHSCORE);
+		if (GUILayout.Button("Back to Main Menu"))
+            Application.LoadLevel(GlobalNames.SCENE_ID_MAINMENU);
 		
 		GUILayout.EndHorizontal();
 		

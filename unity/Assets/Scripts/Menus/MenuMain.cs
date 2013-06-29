@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Main Menu Script and base class for other menus:)
+/// </summary>
 public class MenuMain : MonoBehaviour {
 		
 	public Texture2D tex_MenuBackground;  

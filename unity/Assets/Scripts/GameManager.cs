@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     public int victories = 0;
     public int losses = 0;
+	
+	private bool isGamePaused = false; 
 
 
     private GameManager() //ctor is private in order to ensure single-instanciation
@@ -137,10 +139,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-
-
-
-
         if (canControl)
         {
             pointsLeftToWin -= points[segmentsFolded] * Time.deltaTime;
@@ -149,7 +147,14 @@ public class GameManager : MonoBehaviour
             checkForRoundEnd();
         }
 
-
+		//pause game
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			isGamePaused = true;
+			Time.timeScale = 0; 
+			
+			//restart game functionality?
+		}
 
         //if (Input.GetKeyDown(KeyCode.R)) //manual restart-option, for testing only
         //{
@@ -304,6 +309,35 @@ public class GameManager : MonoBehaviour
     {
         return canControl;
     }
-
-
+	
+	
+	
+	private void DrawPauseMenu(int windowID)
+	{
+		
+		//GUI.Box(new Rect(0, 0, Screen.width, Screen.height), " ");
+		
+		GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+		GUILayout.BeginHorizontal();
+		
+		if (GUILayout.Button("Resume"))
+		{
+			isGamePaused = false;
+			Time.timeScale = 1.0f;
+		}			
+		if (GUILayout.Button("Back to Main Menu"))
+            Application.LoadLevel(GlobalNames.SCENE_ID_MAINMENU);
+		if (GUILayout.Button("Quit"))
+            Application.Quit();
+		
+		GUILayout.EndHorizontal();
+		GUILayout.EndArea();	
+	}
+	
+	void OnGUI()
+	{
+		//draw pause menu if game is paused
+		if(isGamePaused)
+			GUI.Window(0, new Rect(Screen.width/2, Screen.height/2, 400, 400), DrawPauseMenu, "PauseMenu");
+	}
 }
