@@ -10,6 +10,7 @@ public static class GlobalNames
 	public const string SCENE_ID_OPTIONS = "OptionsMenu";
 	public const string SCENE_ID_HIGHSCORE = "Highscore";
 	public const string SCENE_ID_GAME = "coreScene_v11";
+	public const string SCENE_ID_CREDITS = "Credits";
 	#endregion
 
 #region Enumarations

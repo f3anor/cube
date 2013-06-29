@@ -3,26 +3,56 @@ using System.Collections;
 
 public class MenuMain : MonoBehaviour {
 		
-
+	public Texture2D tex_MenuBackground;  
+	public Texture2D tex_ButtonStartGame;  
+	public Texture2D tex_ButtonOptions;  
+	public Texture2D tex_ButtonCredits;
+	public Texture2D tex_ButtonHighscore;
+	public Texture2D tex_ButtonQuit;
 	
-	void Update () {
+	void Start () 
+	{
 	
 	}
 	
 	void OnGUI()
 	{
+		//BG Images
+		GUI.Box(new Rect(0, 0, Screen.width, Screen.height), " ");
+		GUI.Label( new Rect(0, 0, Screen.width, Screen.height), tex_MenuBackground);
+		
+		//buttons
+		GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+		
 		GUILayout.BeginHorizontal();
 		
+		//testbuttons
 		if (GUILayout.Button("Start Game"))
 			Application.LoadLevel(GlobalNames.SCENE_ID_GAME);
 		if (GUILayout.Button("Options"))
-            Application.LoadLevel(GlobalNames.SCENE_ID_OPTIONS);
-		
+            Application.LoadLevel(GlobalNames.SCENE_ID_OPTIONS);		
 		if (GUILayout.Button("Highscore"))
             Application.LoadLevel(GlobalNames.SCENE_ID_HIGHSCORE);
+		if (GUILayout.Button("Credits"))
+            Application.LoadLevel(GlobalNames.SCENE_ID_CREDITS);
+		if (GUILayout.Button("Quit"))
+            Application.Quit();
+		
+		//buttons with textures
+		if (GUILayout.Button(tex_ButtonStartGame))
+			Application.LoadLevel(GlobalNames.SCENE_ID_GAME);
+		if (GUILayout.Button(tex_ButtonOptions))
+            Application.LoadLevel(GlobalNames.SCENE_ID_OPTIONS);		
+		if (GUILayout.Button(tex_ButtonHighscore))
+            Application.LoadLevel(GlobalNames.SCENE_ID_HIGHSCORE);
+		if (GUILayout.Button(tex_ButtonCredits))
+            Application.LoadLevel(GlobalNames.SCENE_ID_CREDITS);
+		if (GUILayout.Button(tex_ButtonQuit))
+            Application.Quit();
 		
 		GUILayout.EndHorizontal();
 		
-		GUI.Label(new Rect(Screen.width/2, Screen.height/2, 100, 100), "StartMenu");
+		GUILayout.EndArea();	
+
 	}
 }
