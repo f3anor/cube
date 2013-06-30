@@ -14,7 +14,10 @@ public class MenuMain : MonoBehaviour
 	public Texture2D tex_ButtonHighscore;
 	public Texture2D tex_ButtonQuit;
 	public bool useTexturedButtons = false;
-	
+
+    public int menuPositionX = 530;
+    public int menuPositionY = 270;
+
 	void Start ()
 	{
 	
@@ -27,9 +30,9 @@ public class MenuMain : MonoBehaviour
 		GUI.Label (new Rect (0, 0, Screen.width, Screen.height), tex_MenuBackground);
 		
 		//buttons
-		GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
+        GUILayout.BeginArea(new Rect(menuPositionX, menuPositionY, Screen.width, Screen.height));
 		
-		GUILayout.BeginHorizontal ();
+		GUILayout.BeginVertical ();
 		
 		if (useTexturedButtons == false) {
 			//testbuttons
@@ -58,7 +61,7 @@ public class MenuMain : MonoBehaviour
 				Application.Quit ();
 		
 		}
-		GUILayout.EndHorizontal ();
+        GUILayout.BeginVertical();
 		
 		GUILayout.EndArea ();	
 
