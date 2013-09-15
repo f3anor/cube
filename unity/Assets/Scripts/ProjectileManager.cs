@@ -58,8 +58,12 @@ public class ProjectileManager : MonoBehaviour
         _eventManager.addListener(ProjectileManager_OnProjectileToBoundCollision, EventManager.eventName.OnProjectileToBoundCollision);
         _eventManager.addListener(ProjectileManager_OnProjectileToSegment, EventManager.eventName.OnProjectileToSegmentCollision);
         _eventManager.addListener(ProjectileManager_OnProjectileToProjectile, EventManager.eventName.OnProjectileToProjectileCollision);
+        _eventManager.addListener(ProjectileManager_OnProjectileTrapped, EventManager.eventName.OnProjectileTrapped);
     }
 
+    private void ProjectileManager_OnProjectileTrapped(GameObject g, EventArgs e) {
+        removeProjectileFromGame(g);
+    }
 
     private void ProjectileManager_OnProjectileToBoundCollision(GameObject g, EventArgs e)
     {
@@ -101,12 +105,10 @@ public class ProjectileManager : MonoBehaviour
             //select a position to launch projectile from (at random)
             if (!scheduledSpawning || schedulePosition >= SpawningSchedule.Length)
             {
-                Debug.Log("spawning random projectile");
                 spawnRandomProjectile();
             }
             else
             {
-                Debug.Log("spawning scheduled");
                 spawnScheduledProjectile();
             }
 

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public float currentRoundPointsToWin = 20; // the number that needs to be... reduced to 0 to win
 
     public float pointsLeftToWin;
-
+    public float pointsForTrappedProjectile = 10;
 
     public int[] points = { 0, 1, 2, 3, 7 };
 
@@ -44,9 +44,9 @@ public class GameManager : MonoBehaviour
 
     public int victories = 0;
     public int losses = 0;
-	
-	private bool isGamePaused = false; 
-	private GUISkin	guiSkin;			//standard skin for gui
+
+    private bool isGamePaused = false;
+    private GUISkin guiSkin;			//standard skin for gui
 
 
     private GameManager() //ctor is private in order to ensure single-instanciation
@@ -93,7 +93,14 @@ public class GameManager : MonoBehaviour
         _eventManager.addListener(GameManager_OnFolded, EventManager.eventName.OnFoldedOut);
         _eventManager.addListener(GameManager_OnFolded, EventManager.eventName.OnFoldedInward);
         _eventManager.addListener(GameManager_OnProjectileToSegmentCollision, EventManager.eventName.OnProjectileToSegmentCollision);
+        _eventManager.addListener(GameManager_OnProjectileTrapped, EventManager.eventName.OnProjectileTrapped);
 
+    }
+
+    void GameManager_OnProjectileTrapped(GameObject g, EventArgs e)
+    {
+        pointsLeftToWin -= pointsForTrappedProjectile;
+        Debug.Log("adding points");
     }
 
 
@@ -148,14 +155,14 @@ public class GameManager : MonoBehaviour
             checkForRoundEnd();
         }
 
-		//pause game
-		if(Input.GetKeyDown(KeyCode.Escape))
-		{
-			isGamePaused = true;
-			Time.timeScale = 0; 
-			
-			//restart game functionality?
-		}
+        //pause game
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isGamePaused = true;
+            Time.timeScale = 0;
+
+            //restart game functionality?
+        }
 
         //if (Input.GetKeyDown(KeyCode.R)) //manual restart-option, for testing only
         //{
@@ -191,8 +198,9 @@ public class GameManager : MonoBehaviour
 
         _eventManager.dispatchEvent(this.gameObject, EventArgs.Empty, EventManager.eventName.OnRestart);
 
-        if(victoryAchieved()){
-                        _eventManager.dispatchEvent(this.gameObject, EventArgs.Empty, EventManager.eventName.OnRestartWin);
+        if (victoryAchieved())
+        {
+            _eventManager.dispatchEvent(this.gameObject, EventArgs.Empty, EventManager.eventName.OnRestartWin);
         }
 
         //disable user control
@@ -310,36 +318,36 @@ public class GameManager : MonoBehaviour
     {
         return canControl;
     }
-	
-	private void DrawPauseMenu(int windowID)
-	{
-		
-		//GUI.Box(new Rect(0, 0, Screen.width, Screen.height), " ");
-		
-		//GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
-		//GUILayout.BeginHorizontal();
-		
-		if (GUILayout.Button("Resume"))
-		{
-			isGamePaused = false;
-			Time.timeScale = 1.0f;
-		}
-		
-		if (GUILayout.Button("Back to Main Menu"))
+
+    private void DrawPauseMenu(int windowID)
+    {
+
+        //GUI.Box(new Rect(0, 0, Screen.width, Screen.height), " ");
+
+        //GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
+        //GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Resume"))
+        {
+            isGamePaused = false;
+            Time.timeScale = 1.0f;
+        }
+
+        if (GUILayout.Button("Back to Main Menu"))
             Application.LoadLevel(GlobalNames.SCENE_ID_MAINMENU);
-		if (GUILayout.Button("Quit"))
+        if (GUILayout.Button("Quit"))
             Application.Quit();
-		
-		//GUILayout.EndHorizontal();
-		//GUILayout.EndArea();	
-	}
-	
-	void OnGUI()
-	{
-		GUI.skin = guiSkin;
-		
-		//draw pause menu if game is paused
-		if(isGamePaused)
-			GUI.Window(0, new Rect(Screen.width/2, Screen.height/2, 400, 400), DrawPauseMenu, "PauseMenu");
-	}
+
+        //GUILayout.EndHorizontal();
+        //GUILayout.EndArea();	
+    }
+
+    void OnGUI()
+    {
+        GUI.skin = guiSkin;
+
+        //draw pause menu if game is paused
+        if (isGamePaused)
+            GUI.Window(0, new Rect(Screen.width / 2, Screen.height / 2, 400, 400), DrawPauseMenu, "PauseMenu");
+    }
 }

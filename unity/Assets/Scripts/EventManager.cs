@@ -39,6 +39,7 @@ public class EventManager
         OnProjectileToBoundCollision,
         OnProjectileToSegmentCollision,
         OnProjectileToProjectileCollision,
+        OnProjectileTrapped,
         OnRestart,
         OnRestartLoss,
         OnRestartWin

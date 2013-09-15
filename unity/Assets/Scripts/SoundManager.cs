@@ -15,6 +15,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip unfoldSound;
     public AudioClip hoverSound;
     public AudioClip outSound;
+    public AudioClip trappedSound;
 
     public AudioClip collisionSound;
     public AudioClip projectileCollisionSound;
@@ -35,7 +36,13 @@ public class SoundManager : MonoBehaviour
         _eventManager.addListener(soundManager_OnSegmentHover, EventManager.eventName.OnSegmentHover);
        // _eventManager.addListener(soundManager_OnRestart, EventManager.eventName.OnRestart);
         _eventManager.addListener(soundManager_OnRestartWin, EventManager.eventName.OnRestartWin);
+        _eventManager.addListener(soundManager_OnProjectileTrapped, EventManager.eventName.OnProjectileTrapped);
     }
+
+    void soundManager_OnProjectileTrapped(GameObject g, EventArgs e) {
+        AudioSource.PlayClipAtPoint(trappedSound, g.transform.position);
+    }
+
 
     public static SoundManager getInstance()
     {
