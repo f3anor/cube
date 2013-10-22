@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public bool allowClickWhileTransitioning; //TODO should this be in cubeSegment-class as static? but more comfortable in unity to put here for tweaking...
 
+
+
     public float timeSpan = 10.0f; //the amount of time in which cube must be completed
     public int currentRound = 0; //round we are currently playing in
 
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
     public ProjectileManager projectileManager; //needed for removing flying projectiles  TODO: merge into one?
     private bool gameJustStarted = true;  //marks if the game hast just been (re)started, needed for knowing wheter to startcouroutine for spawning projectiles etc. TODO: state?
     public int segmentsFolded = 0; //number of segments that are currently folded (in)
-    public const uint foldedSegmentsNeededforVictory = 15; //defines how many cube segments need to be folded (in) in order to achieve victory  def: 4
+    
 
     public float currentRoundPointsToWin = 20; // the number that needs to be... reduced to 0 to win
 
@@ -30,6 +32,8 @@ public class GameManager : MonoBehaviour
     public float pointsForTrappedProjectile = 10;
 
     public int[] points = { 0, 1, 2, 3, 7 };
+
+    public int pointsMultiplier = 1;
 
     private float restartAtTime; //time at which next time-over-restart occurs
     private float timeLeft; //time left in current round
@@ -100,7 +104,6 @@ public class GameManager : MonoBehaviour
     void GameManager_OnProjectileTrapped(GameObject g, EventArgs e)
     {
         pointsLeftToWin -= pointsForTrappedProjectile;
-        Debug.Log("adding points");
     }
 
 
@@ -149,7 +152,7 @@ public class GameManager : MonoBehaviour
 
         if (canControl)
         {
-            pointsLeftToWin -= points[segmentsFolded] * Time.deltaTime;
+            calculatePoints();
             timeLeft = restartAtTime - Time.time;
             updateProgressBars();
             checkForRoundEnd();
@@ -192,6 +195,15 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void calculatePoints()
+    {
+        pointsLeftToWin -= points[segmentsFolded] * pointsMultiplier * Time.deltaTime;
+    }
+
+    public void increasePoints(int value) //actually this DEcreases points, but for easier understandig called 'increasePoints'
+    {
+        pointsLeftToWin -= value;
+    }
 
     private void cleanUp()
     {
@@ -201,6 +213,9 @@ public class GameManager : MonoBehaviour
         if (victoryAchieved())
         {
             _eventManager.dispatchEvent(this.gameObject, EventArgs.Empty, EventManager.eventName.OnRestartWin);
+        }
+        else {
+            _eventManager.dispatchEvent(this.gameObject, EventArgs.Empty, EventManager.eventName.OnRestartLoss);
         }
 
         //disable user control

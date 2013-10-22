@@ -20,9 +20,12 @@ public class ProjectileManager : MonoBehaviour
 
     public bool spawnProjectiles = true;
     public List<GameObject> activeProjectiles = new List<GameObject>(); //a list that registers which projectiles are currently active	
+    public List<GameObject> activePowerups = new List<GameObject>(); //a list that registers which projectiles are currently active	
+    
     public Transform[] startPositions; //the positions from where projectiles are launched from
-    public GameObject projectile; //the type of projectile = prefab in this case that gets launced
-
+    public GameObject projectile; //the type of projectile (= prefab in this case) that gets launced
+    public GameObject[] PowerupProjectiles; //the type of powerup possible to spawn from this object
+    
 
     public int[] SpawningSchedule;
 
@@ -34,6 +37,8 @@ public class ProjectileManager : MonoBehaviour
 
     public int schedulePosition = 0;
 
+
+    public int probabilityOfPowerupSpawning = 20;
 
     public float spawnInterval = 5.0f; //the interval within which projectiles are spawned; "spawn a projectile every spawnInterval seconds".
     public float rndSpeedLower = 1.0f; //lower amount of random speed of to the launched projectile
@@ -56,12 +61,28 @@ public class ProjectileManager : MonoBehaviour
         _eventManager = EventManager.getInstance();
 
         _eventManager.addListener(ProjectileManager_OnProjectileToBoundCollision, EventManager.eventName.OnProjectileToBoundCollision);
+        _eventManager.addListener(ProjectileManager_OnProjectileToBoundCollision, EventManager.eventName.OnProjectilePowerupToBoundCollision);
         _eventManager.addListener(ProjectileManager_OnProjectileToSegment, EventManager.eventName.OnProjectileToSegmentCollision);
         _eventManager.addListener(ProjectileManager_OnProjectileToProjectile, EventManager.eventName.OnProjectileToProjectileCollision);
         _eventManager.addListener(ProjectileManager_OnProjectileTrapped, EventManager.eventName.OnProjectileTrapped);
+        _eventManager.addListener(ProjectileManager_OnPowerupPickedUp, EventManager.eventName.OnProjectilePowerupPickedUp);
+
     }
 
+    private void ProjectileManager_OnPowerupPickedUp(GameObject g, EventArgs e)
+    {
+        removeProjectileFromGame(g);
+    }
+
+
+
     private void ProjectileManager_OnProjectileTrapped(GameObject g, EventArgs e) {
+        if (g.GetComponent<Projectile>().GetType() == typeof(ProjectilePowerup))
+        {
+            Debug.Log("powerup trapped.");
+            _eventManager.dispatchEvent(g, e, EventManager.eventName.OnProjectilePowerupPickedUp);
+        }
+        
         removeProjectileFromGame(g);
     }
 
@@ -69,6 +90,7 @@ public class ProjectileManager : MonoBehaviour
     {
         removeProjectileFromGame(g);
     }
+
 
     private void ProjectileManager_OnProjectileToSegment(GameObject g, EventArgs e)
     {
@@ -91,14 +113,14 @@ public class ProjectileManager : MonoBehaviour
     public IEnumerator spawnProjectile()
     {
 
-        if (schedulePosition >= SpawningSchedule.Length)
-        {
-            scheduledSpawning = false;
-        }
-        else
-        {
-            scheduledSpawning = true;
-        }
+        //if (schedulePosition >= SpawningSchedule.Length)
+        //{
+        //    scheduledSpawning = false;
+        //}
+        //else
+        //{
+        //    scheduledSpawning = true;
+        //}
 
         while (spawnProjectiles) //TODO why do i actually need this loop?
         {
@@ -122,16 +144,55 @@ public class ProjectileManager : MonoBehaviour
 
     private void spawnRandomProjectile()
     {
+        if (!shouldSpawnPowerup(probabilityOfPowerupSpawning))
+        {
+            spawnRandomMissile();
+        }
+        else
+        {
+            spawnRandomPowerup();
+        }
+        
+        
+    }
 
-        spawnInterval = UnityEngine.Random.Range(rndSpawnIntervalLower, rndSpawnIntervalUpper);
-        int location = (int)UnityEngine.Random.Range(0, 4); //choose a location from which to launch a projectile from at random (int gets fed into startPositions-list (1,3) for B-C-Lane only
-        GameObject instantiatedProjectile = Instantiate(projectile, startPositions[location].transform.position, startPositions[location].transform.rotation) as GameObject;
-        instantiatedProjectile.name = "msh_instantiatedProjectile_" + projectilesCounter.ToString();
+    private void spawnRandomPowerup()
+    {
+        int randomPowerupIndex = (int)UnityEngine.Random.Range(0, PowerupProjectiles.Length);
+
+        GameObject instantiatedProjectile = spawnProjectileAtRandomLocation(PowerupProjectiles[randomPowerupIndex]);
         instantiatedProjectile.GetComponent<Projectile>().speedModifier = UnityEngine.Random.Range(rndSpeedLower, rndSpeedUpper);
         projectilesCounter++;
 
         //register instantiated projectile
-        registerNewInstance(instantiatedProjectile);
+        activePowerups.Add(instantiatedProjectile); //TODO: create pendant to registerNewInstnace() or modify that function based on projectile-type?
+
+
+    }
+
+    private GameObject spawnProjectileAtRandomLocation(GameObject typeOfProjectile)
+    {
+        int location = (int)UnityEngine.Random.Range(0, 4);
+
+        GameObject instantiatedProjectile = Instantiate(typeOfProjectile, startPositions[location].transform.position, startPositions[location].transform.rotation) as GameObject;
+        instantiatedProjectile.name = "msh_" + typeOfProjectile.GetType().Name;
+        return instantiatedProjectile;
+
+    }
+
+
+    private void spawnRandomMissile()
+    {
+       // spawnInterval = UnityEngine.Random.Range(rndSpawnIntervalLower, rndSpawnIntervalUpper);
+
+        GameObject instantiatedProjectile = spawnProjectileAtRandomLocation(projectile);
+
+
+        instantiatedProjectile.GetComponent<Projectile>().speedModifier = UnityEngine.Random.Range(rndSpeedLower, rndSpeedUpper);
+        projectilesCounter++;
+
+        //register instantiated projectile
+        activeProjectiles.Add(instantiatedProjectile);
     }
 
     private void spawnScheduledProjectile()
@@ -145,15 +206,29 @@ public class ProjectileManager : MonoBehaviour
         projectilesCounter++;
 
         //register instantiated projectile
-        registerNewInstance(instantiatedProjectile);
+        activeProjectiles.Add(instantiatedProjectile);
         schedulePosition++;
 
     }
 
-    private void registerNewInstance(GameObject projectileToRegister)
+    private bool shouldSpawnPowerup(int probability)
     {
-        activeProjectiles.Add(projectileToRegister); //adds projectile to the active-projectiles-list (List<GameObject> activeProjectiles)
+        int randomNumber = (int)UnityEngine.Random.Range(0, 100);
+        //Debug.Log("Random number: " + randomNumber);
+
+        if (randomNumber > probability)
+        {
+            //Debug.Log("should spawn missile");
+            return false;
+        }
+        else
+        {
+            //Debug.Log("should spawn powerup");
+            return true;
+        }
     }
+
+
 
     public List<GameObject> getActiveProjectiles()
     {
@@ -167,18 +242,25 @@ public class ProjectileManager : MonoBehaviour
         foreach (GameObject projectile in activeProjectiles)
         {
             Destroy(projectile.GetComponent<Projectile>().gameObject);
+            Debug.Log(projectile.GetComponent<Projectile>().gameObject);
+
         }
+
+
 
         //clear the list
         activeProjectiles.Clear();
+        activePowerups.Clear();
     }
+
+
 
     public void disableAllProjectiles()
     {
         //disable every registered game object within the activeProjectiles list, this is a quirk that is needed because of delayed removal made  necessary so that sounds can finish playing
         foreach (GameObject projectile in activeProjectiles)
         {
-            projectile.GetComponent<Projectile>().disableProjectile();
+           projectile.GetComponent<Projectile>().disableProjectile();
         }
     }
 

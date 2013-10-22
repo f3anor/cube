@@ -48,13 +48,22 @@
      <Compile Include="Assets\Scripts\EventManager.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Helper\GlobalNames.cs" />
+     <Compile Include="Assets\Scripts\Inventory.cs" />
+     <Compile Include="Assets\Scripts\InventorySlot.cs" />
      <Compile Include="Assets\Scripts\KeyboardInput.cs" />
      <Compile Include="Assets\Scripts\Menus\MenuHighscore.cs" />
      <Compile Include="Assets\Scripts\Menus\MenuMain.cs" />
      <Compile Include="Assets\Scripts\Menus\MenuOptions.cs" />
+     <Compile Include="Assets\Scripts\MultiplicatorPowerUp.cs" />
+     <Compile Include="Assets\Scripts\OverTimePowerUp.cs" />
+     <Compile Include="Assets\Scripts\PowerUp.cs" />
+     <Compile Include="Assets\Scripts\PowerUpEffectsManager.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\ProjectileManager.cs" />
+     <Compile Include="Assets\Scripts\ProjectilePowerup.cs" />
+     <Compile Include="Assets\Scripts\SlowMissilesPowerUp.cs" />
      <Compile Include="Assets\Scripts\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\TransmutePowerUp.cs" />
      <Compile Include="Assets\Scripts\TrappingZone.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

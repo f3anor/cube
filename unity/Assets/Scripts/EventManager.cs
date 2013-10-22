@@ -35,14 +35,28 @@ public class EventManager
         OnFolded,
         OnFoldedOut,
         OnFoldedInward,
+        
         OnProjectileCollision,
         OnProjectileToBoundCollision,
         OnProjectileToSegmentCollision,
         OnProjectileToProjectileCollision,
         OnProjectileTrapped,
+
+        OnProjectilePowerupPickedUp,
+        OnProjectilePowerupToBoundCollision,
+        OnProjectilePowerupToProjectileCollision,
+
+
         OnRestart,
         OnRestartLoss,
-        OnRestartWin
+        OnRestartWin,
+        OnPowerUpMultiplicatorActivated,
+        OnPowerUpMultiplicatorDepleted,
+        OnPowerUpSlowMissilesActivated,
+        OnPowerUpSlowMissilesDeactivated,
+        OnPowerUpTransmute,
+        OnInventorySlotClicked,
+        OnInventorySlotHover
     }
 
     private Dictionary<eventName, GameEvent> eventDictionary = new Dictionary<eventName, GameEvent>();

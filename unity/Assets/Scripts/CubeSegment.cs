@@ -42,7 +42,7 @@ public class CubeSegment : MonoBehaviour
 
 
     private Color startColor; //color of cubesegments at start
-    private Color overColor = new Color(1.0f, 0.678f, 0.10f, 0.7f); //color for cube-segments on mouseover
+    private Color overColor = new Color(1.0f, 0.678f, 0.10f, 1.0f); //color for cube-segments on mouseover
 
     static int inwardFoldedSegments = 0;
     static int maxNumberOfInwardFoldedSegments = 1;

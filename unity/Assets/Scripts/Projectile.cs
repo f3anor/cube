@@ -7,9 +7,9 @@ public class Projectile : MonoBehaviour
 {
 
 
-    //audio-clips for all projectile related operations, which clips are used can be definied in the unity editor by dragging them into the specific slots
 
     public float speedModifier = 2.0f; //determins how fast the projectile moves by multiplying this value with a forward vector and deltaTime
+    public GameObject projectileMesh;
 
     public EventManager _eventManager;
 
@@ -33,22 +33,24 @@ public class Projectile : MonoBehaviour
         transform.LookAt(new Vector3(0, transform.position.y, 0));
     }
 
-    private void move()
+    protected virtual void move()
     {
         /*translate the object using a vector-multiplication with a forward-vector (0,0,1) - multiplied with the speedModifier to make it faster/slower
         translation occurs in object space (Space.Self) */
         transform.Translate(Vector3.forward * speedModifier * Time.deltaTime, Space.Self);
+        transform.Rotate(Vector3.forward, 80.0f * (speedModifier * speedModifier * speedModifier) * Time.deltaTime, Space.Self);
 
     }
 
     private void OnTriggerEnter(Collider collidedWith)
     {
         handleCollisions(collidedWith);
-        _eventManager.dispatchEvent(this.gameObject, EventArgs.Empty, EventManager.eventName.OnProjectileCollision);
+        
+        //_eventManager.dispatchEvent(this.gameObject, EventArgs.Empty, EventManager.eventName.OnProjectileCollision);
 
     }
 
-    private void handleCollisions(Collider collidedWith)
+    protected virtual void handleCollisions(Collider collidedWith)
     {
 
         //check out with what kind of object the projectile collided
@@ -77,7 +79,8 @@ public class Projectile : MonoBehaviour
     public void disableProjectile()
     {
         //quirk so that audio can still be played while object visually and functionally removed
-        this.renderer.enabled = false;
+        
+        projectileMesh.renderer.enabled = false;
         this.collider.enabled = false;
 
     }
