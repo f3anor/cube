@@ -17,20 +17,26 @@ public class MenuMain : MonoBehaviour
 
     public int menuPositionX = 530;
     public int menuPositionY = 270;
-
+	private int buttonWidth;
+	
+	public GUISkin guiSkin; 
+		
 	void Start ()
 	{
-	
+		buttonWidth = tex_ButtonStartGame.width;
 	}
 	
 	void OnGUI ()
 	{
+		GUI.skin = guiSkin;
+		
 		//BG Image
 		GUI.Box (new Rect (0, 0, Screen.width, Screen.height), " ");
 		GUI.Label (new Rect (0, 0, Screen.width, Screen.height), tex_MenuBackground);
 		
 		//buttons
-        GUILayout.BeginArea(new Rect(menuPositionX, menuPositionY, Screen.width, Screen.height));
+       //GUILayout.BeginArea(new Rect(menuPositionX, menuPositionY, Screen.width, Screen.height));
+		GUILayout.BeginArea(new Rect(Screen.width / 2 - tex_ButtonStartGame.width, Screen.height / 2, Screen.width, Screen.height));
 		
 		GUILayout.BeginVertical ();
 		
