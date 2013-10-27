@@ -36,7 +36,6 @@ public class ProjectilePowerup : Projectile {
     {
 
         transform.Translate(Vector3.forward * speedModifier * Time.deltaTime, Space.Self);
-        projectileMesh.transform.Rotate(Vector3.up, 80.0f * (speedModifier * speedModifier * speedModifier) * Time.deltaTime, Space.Self);
 
     }
 
