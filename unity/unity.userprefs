@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ProjectileManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Menus/MenuHighscore.cs">
     <Files>
-      <File FileName="../../../UnityProjects/nmx_mobile/Assets/Script/Progression/Progression.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ScoringSystem.cs" Line="32" Column="16" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="103" Column="2" />
+      <File FileName="../../../UnityProjects/nmx_mobile/Assets/Script/GUI/GUIMainMenuWindow.cs" Line="17" Column="2" />
+      <File FileName="Assets/Scripts/ScoringSystem.cs" Line="22" Column="14" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="19" Column="2" />
       <File FileName="Assets/Scripts/EventManager.cs" Line="51" Column="22" />
-      <File FileName="Assets/Scripts/Inventory.cs" Line="49" Column="2" />
-      <File FileName="Assets/Scripts/ProjectileManager.cs" Line="177" Column="1" />
+      <File FileName="Assets/Scripts/Inventory.cs" Line="49" Column="1" />
+      <File FileName="Assets/Scripts/Menus/MenuHighscore.cs" Line="21" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

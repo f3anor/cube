@@ -18,15 +18,11 @@ public class ScoringSystem : MonoBehaviour
 		
 		if(_eventManager != null)
 			_eventManager.addListener(ScoringSystem_OnRestartLoss, EventManager.eventName.OnRestartLoss);
-		
-		//tmp. test
-		AddScore("asdf", 123);
-		AddScore("haodishf", 123);
 	}
 		
 	private void ScoringSystem_OnRestartLoss(GameObject g, EventArgs e)
     {
-		AddScore(playerName, currentScore);
+		AddScore(playerName, GameManager.getInstance().currentRound);
         Debug.Log("ScoringSystem_OnRestartLoss");
     }
 	
