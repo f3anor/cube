@@ -5,11 +5,9 @@ using System.Collections.Generic;
 
 public class ScoringSystem : MonoBehaviour
 {		
-	public static int maxHighscores = 10; //how many high scores in list
-	public static string playerName = "peppi"; //todo: set player name via menu?
-	
-	public int currentScore; 
-	
+	public static int maxHighscores = 10; //indicates how many high scores are stored in the list
+	private string playerName; 
+		
 	private EventManager _eventManager; 
 	
 	void Start()
@@ -18,6 +16,8 @@ public class ScoringSystem : MonoBehaviour
 		
 		if(_eventManager != null)
 			_eventManager.addListener(ScoringSystem_OnRestartLoss, EventManager.eventName.OnRestartLoss);
+		
+		playerName = PlayerPrefs.GetString("PlayerName");
 	}
 		
 	private void ScoringSystem_OnRestartLoss(GameObject g, EventArgs e)
